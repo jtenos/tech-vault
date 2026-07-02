@@ -1,13 +1,8 @@
-# Obsidian local session state - changes every launch, no useful history value
-.obsidian/workspace.json
-.obsidian/workspace-mobile.json
-
-# Plugin data files that can hold API keys/secrets
-.obsidian/plugins/copilot/data.json
-
-# Local sync preferences, machine-specific
-.obsidian/plugins/obsidian-git/data.json
-
-# OS cruft
 .DS_Store
 Thumbs.db
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian-git-data
+.trash/
+*.tmp
+.obsidian/plugins/copilot/data.json
