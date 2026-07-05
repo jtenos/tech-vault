@@ -13,7 +13,7 @@ Write-Output "Num Files: $($Details.Count.ToString('#,##0'))"
 Write-Output "Num Bytes: $($Details.Sum.ToString('#,##0'))"
 Write-Output ""
 
-# PS C: \Users\jtenos> Get-FolderSize -Path C:\ Temp
+# PS C: \Users\myname> Get-FolderSize -Path C:\ Temp
 # Info for C:\Temp:
 # Num Files:
 # 5
