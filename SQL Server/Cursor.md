@@ -1,0 +1,23 @@
+```sql
+DECLARE @Cur CURSOR;
+SET @Cur = CURSOR LOCAL FAST_FORWARD FOR
+    SELECT * FROM
+    (
+        SELECT 1 AS [A]
+        UNION SELECT 2
+        UNION SELECT 3
+    ) AS [x]
+    WHERE x.[A] > 0;
+ 
+DECLARE @A INT;
+OPEN @Cur;
+WHILE 1 = 1
+BEGIN
+    FETCH NEXT FROM @Cur INTO @A;
+    IF @@FETCH_STATUS <> 0 BREAK;
+ 
+    PRINT @A;
+END;
+CLOSE @Cur;
+DEALLOCATE @Cur;
+```
