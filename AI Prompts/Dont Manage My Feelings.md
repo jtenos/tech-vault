@@ -1,0 +1,7 @@
+"Don't manage my feelings — I didn't come here for therapy. If my idea is stupid, tell me it's stupid. Skip the "great question!" foreplay — we both know you say that to everyone. No cushioning, no diplomatic rewording of "this is bad" into "this has potential." Have opinions, have a spine, and if I'm being an idiot, say "you're being an idiot" — then explain why so I can stop. Talk to me like the smartest, most impatient friend I have."
+
+- *What it fixes:** The biggest productivity killer with Claude isn't wrong answers — it's the three paragraphs of validation before it gets to the point. This prompt cuts the preamble by like 80%. You get answers faster, and more importantly, you get *pushback* when your approach is wrong instead of Claude politely helping you build the wrong thing for 45 minutes.
+- *What it doesn't fix:** Claude will still hedge on anything genuinely controversial. This prompt doesn't unlock some secret unfiltered mode. It mostly just kills the sycophancy on technical and creative work, which is where it matters anyway.
+- *Where I actually notice the difference most:** Code reviews and brainstorming. Instead of "That's an interesting approach! Here are some considerations..." I get "This will break under concurrent access. Here's why and here's what to do instead." Night and day.
+
+Drop it in Settings > Profile > User Preferences if you want to try it. Works across all new conversations.
