@@ -1,0 +1,6 @@
+```sql
+CREATE TABLE Products (
+     ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT
+    ,Name TEXT
+);
+```
