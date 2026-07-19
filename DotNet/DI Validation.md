@@ -1,3 +1,14 @@
+New way:
+```csharp
+HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
+
+builder.ConfigureContainer(new DefaultServiceProviderFactory(new()
+{
+	ValidateScopes = true,
+	ValidateOnBuild = true
+}));
+```
+
 ```csharp
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
