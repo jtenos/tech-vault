@@ -44,7 +44,7 @@ ORDER BY [AreaInSquareMeters] DESC;
 Boundary of a polygon
 */
 SELECT [geometry].STBoundary()
-FROM [dbo].[states]```
+FROM [dbo].[states]
 ```
 
 # STBuffer
@@ -67,4 +67,90 @@ UNION ALL SELECT @AZBuffer;
 
 # STCentroid
 ```sql
+/*
+Find the centroid of a polygon
+*/
+SELECT [geometry].STCentroid().STBuffer(20000)
+FROM [dbo].[states]
+UNION ALL
+SELECT [geometry].STBoundary()
+FROM [dbo].[states]
+```
+
+# STContains
+```sql
+/*
+Find all states that are fully contained within
+the buffer of New York
+*/
+
+DECLARE @NYBuffer GEOMETRY;
+SELECT @NYBuffer = [geometry].STBuffer(200000)
+FROM [dbo].[states]
+WHERE [Name] = 'New York';
+
+SELECT @NYBuffer
+UNION ALL
+SELECT [geometry] FROM [dbo].[states]
+WHERE @NYBuffer.STContains([geometry]) = 1;
+```
+
+# STDistance
+```sql
+/*
+Find the parcels that are within 30 meters of a flood zone
+*/
+
+;WITH flood_zones AS (
+	SELECT [Geometry]
+	FROM [dbo].[firm]
+	WHERE [ZONE] = 'AE'
+), distance_from_flood_zone AS (
+	SELECT
+		p.[ACCTID]
+		,p.[geometry].STDistance(flood_zones.[Geometry]) [Distance]
+	FROM [dbo].[parcels] p
+	JOIN flood_zones ON p.[geometry].STDistance(flood_zones.[Geometry]) < 30
+)
+SELECT DISTINCT [ACCTID] FROM distance_from_flood_zone
+ORDER BY ACCTID;
+```
+
+# STIntersection
+```sql
+/*
+Find the pieces of the parcels that are in a flood zone
+*/
+SELECT p.[Geometry].STIntersection(f.[Geometry])
+FROM [dbo].[parcels] p
+JOIN [dbo].[firm] f
+	ON p.[Geometry].STIntersects(f.[Geometry]) = 1
+WHERE f.[ZONE] LIKE 'A%';
+```
+
+# STIntersects
+```sql
+/*
+Find all parcels that intersect a flood zone
+*/
+SELECT p.[Geometry]
+FROM [dbo].[parcels] p
+JOIN [dbo].[firm] f
+	ON p.[Geometry].STIntersects(f.[Geometry]) = 1
+WHERE f.[ZONE] LIKE 'A%';
+```
+
+# STTouches
+```sql
+/*
+Find all states that touch New York
+*/
+;WITH ny AS (
+	SELECT [geometry]
+	FROM [dbo].[states]
+	WHERE [Name] = 'New York'
+)
+SELECT s.*
+FROM [dbo].[states] s
+JOIN ny ON s.[geometry].STTouches(ny.[geometry]) = 1
 ```
