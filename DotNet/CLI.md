@@ -27,4 +27,8 @@ cd dist
 
 dotnet tool install --global dotnet-search
 dotnet-search --take 1 newtonsoft
+
+# https://www.hanselman.com/blog/your-dotnet-outdated-is-outdated-update-and-help-keep-your-net-projects-up-to-date
+dotnet tool install --global dotnet-outdated-tool
+dotnet outdated -u:Prompt
 ```

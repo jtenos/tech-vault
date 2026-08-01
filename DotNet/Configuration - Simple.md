@@ -1,4 +1,4 @@
-No options pattern or built in stuff, just pulling from the config itself
+No options pattern or built in stuff, just pulling values directly from the config file
 
 ```shell
 dotnet add package Microsoft.Extensions.Configuration.Binder
@@ -7,6 +7,36 @@ dotnet add package Microsoft.Extensions.Configuration.Json
 
 appsettings.json:
 ```json
+{
+  "StringValue": "This is StringValue",
+  "ConnectionStrings": {
+    "MyApp": "Data Source=db1"
+  },
+  "IntegerValue": 34,
+  "BooleanValue": true,
+  "StringArray": [
+    "alpha",
+    "beta",
+    "gamma"
+  ],
+  "ObjectArray": [
+    {
+      "City": "Omaha",
+      "State": "NE"
+    },
+    {
+      "City": "Seattle",
+      "State": "WA"
+    }
+  ],
+  "ComplexObject": {
+    "Location": {
+      "City": "Omaha",
+      "State": "NE"
+    },
+    "PersonIDs": [ 1, 2, 3 ]
+  }
+}
 ```
 
 .csproj:
@@ -19,17 +49,19 @@ appsettings.json:
 ```
 
 ```csharp
-using System;
-using System.IO;
-using System.Linq;
 using System.Text.Json;
 using Microsoft.Extensions.Configuration;
-using static System.Console;
+
+static void WriteLine(string? s = null) {
+	if (s is not null)
+		Console.WriteLine(s);
+	Console.WriteLine();
+}
 
 WriteLine();
 IConfiguration config = new ConfigurationBuilder()
-    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-    .Build();
+	.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+	.Build();
 
 // Simple way to get a string value:
 string stringValue = config["StringValue"];
@@ -77,19 +109,20 @@ WriteLine($"complexFirstPersonID={complexFirstPersonID}");
 
 WriteLine();
 
-Write($"Make your change now, then press ENTER: ");
-ReadLine();
+// Update configuration at runtime
+Console.Write($"Make your change now, then press ENTER: ");
+config["ComplexObject:Location:City"] = Console.ReadLine();
 
 complexCity = config["ComplexObject:Location:City"];
-WriteLine($"complexObjectCity={complexCity}");
+WriteLine($"after change: complexObjectCity={complexCity}");
 
 record CityState(string City, string State)
 {
-    public CityState() : this("", "") { }
+	public CityState() : this("", "") { }
 }
 
 record ComplexThing(CityState Location, int[] PersonIDs)
 {
-    public ComplexThing() : this(new(), Array.Empty<int>()) { }
+	public ComplexThing() : this(new(), Array.Empty<int>()) { }
 }
 ```
