@@ -75,3 +75,24 @@ public static class Serialization {
     }
 }
 ```
+
+Use settings to indent, omit the XML declaration, and remove namespaces:
+
+```csharp
+using System;
+using System.Xml;
+using System.Xml.Serialization;
+
+var foo = new Foo { Name = "John Doe", Age = 34 };
+
+var settings = new XmlWriterSettings
+{
+    Indent = true,
+    OmitXmlDeclaration = true
+};
+var ns = new XmlSerializerNamespaces();
+ns.Add("", "");
+
+using var writer = XmlWriter.Create(Console.Out, settings);
+new XmlSerializer(typeof(Foo)).Serialize(writer, foo, ns);
+```
