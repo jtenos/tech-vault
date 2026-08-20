@@ -1,0 +1,60 @@
+## Table creation
+```sql
+CREATE TABLE dbo.Games (
+    GameID INT NOT NULL IDENTITY
+    ,CONSTRAINT PK_Games PRIMARY KEY (GameID)
+
+    ,Team1Score INT NOT NULL
+    ,Team2Score INT NOT NULL
+    ,GameDate DATETIME2 NOT NULL
+
+    ,AddDate DATETIME2 NOT NULL
+        CONSTRAINT DF_Games_AddDate DEFAULT (SYSUTCDATETIME())
+    
+    ,_StartDateTime DATETIME2 GENERATED ALWAYS AS ROW START NOT NULL
+    ,_EndDateTime DATETIME2 GENERATED ALWAYS AS ROW END NOT NULL
+    ,PERIOD FOR SYSTEM_TIME (_StartDateTime, _EndDateTime)
+) WITH (SYSTEM_VERSIONING = ON(HISTORY_TABLE = dbo.GamesHistory));
+GO
+
+CREATE TABLE dbo.GamesHistory (
+    GameID INT NOT NULL
+    ,Team1Score INT NOT NULL
+    ,Team2Score INT NOT NULL
+    ,GameDate DATETIME2 NOT NULL
+    ,AddDate DATETIME2 NOT NULL
+    ,_StartDateTime DATETIME2 NOT NULL
+    ,_EndDateTime DATETIME2 NOT NULL
+);
+GO
+```
+
+## Add to existing table
+```sql
+ALTER TABLE dbo.Games
+ADD
+    _StartDateTime DATETIME2 GENERATED ALWAYS AS ROW START NOT NULL
+        CONSTRAINT DF_Games_StartDateTime DEFAULT ('1900-01-01')
+    ,_EndDateTime DATETIME2 GENERATED ALWAYS AS ROW END NOT NULL
+        CONSTRAINT DF_GAMES_EndDateTime DEFAULT ('9999-12-31 23:59:59.9999999')
+    ,PERIOD FOR SYSTEM_TIME (_StartDateTime, _EndDateTime);
+GO
+
+ALTER TABLE dbo.Games DROP PERIOD FOR SYSTEM_TIME;
+GO
+
+ALTER TABLE dbo.Games DROP CONSTRAINT DF_Games_StartDateTime;
+GO
+ALTER TABLE dbo.Games DROP CONSTRAINT DF_Games_EndDateTime;
+GO
+
+UPDATE dbo.Games
+SET _StartDateTime = AddDate;
+GO
+
+ALTER TABLE dbo.Games ADD PERIOD FOR SYSTEM_TIME (_StartDateTime, _EndDateTime);
+GO
+
+ALTER TABLE dbo.Games SET (SYSTEM_VERSIONING = ON (HISTORY_TABLE = dbo.GamesHistory, DATA_CONSISTENCY_CHECK=ON));
+GO
+```
