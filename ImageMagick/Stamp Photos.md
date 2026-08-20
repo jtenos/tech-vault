@@ -35,3 +35,27 @@ $Extensions | ForEach-Object {
 Write-Output "DONE"
 Read-Host
 ```
+
+```batch
+rem dptnt.com/2009/04/how-to-add-date-time-stamp-to-jpeg-photos-using-free-software/ 
+
+@ECHO OFF
+SETLOCAL
+FOR /R %%G IN (*.jpg) DO CALL :process "%%G"
+GOTO :end 
+
+:process
+SET _inname=%1 
+
+identify -format %%w %_inname% >dttmpfile 
+set /p width=<dttmpfile
+Set /a pointsize=%width%/50 
+rem echo ZZ >> dttempfile
+DEL dttmpfile
+ECHO Processing %_inname% ...
+convert %_inname% -gravity SouthEast -font Arial -pointsize %pointsize% -fill orange 
+-annotate +%pointsize%+%pointsize% "%%[exif:DateTimeOriginal]" %_inname% 
+EXIT /B 
+
+:end 
+```
