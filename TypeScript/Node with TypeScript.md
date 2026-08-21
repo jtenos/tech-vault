@@ -11,14 +11,14 @@ mkdir src
 mkdir js
 ```
 
-*** configure package and tsconfig, and add code to project ***
+Configure package and tsconfig, and add code to project
 
 ```bash
 npm start
 ```
 
 ## tsconfig.json
-
+```json
     "target": "ES2020",                          
     "module": "commonjs",                    
      "outDir": "./js",                        
@@ -26,9 +26,11 @@ npm start
     "esModuleInterop": true,       
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true  
+```
 
-src/index.ts
+## src/index.ts
 
+```typescript
 import Car from "./car";
 import isOdd from "is-odd";
 
@@ -45,9 +47,10 @@ export default class Car {
     constructor(private model: string) {}
     drive() {console.log(`${this.model} goes vroom`);}
 }
+```
 
-package.json
-
+## package.json
+```json
 {
   "name": "code",
   "version": "1.0.0",
@@ -67,3 +70,4 @@ package.json
     "@types/is-odd": "^3.0.0"
   }
 }
+```
