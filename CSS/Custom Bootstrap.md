@@ -35,3 +35,20 @@ $theme-colors: (
 ```
 
 ## index.html
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+	...
+	<!-- Import the compiled CSS.
+		This brought in Bootstrap so you don't need the Bootstrap CSS itself, only the final compiled one.
+		Do not check the css file into source control
+	-->
+    <link rel="stylesheet" href="styles/site.css">
+  </head>
+  <body>
+    <button class="btn btn-primary">This button is teal</button>
+    <!-- ...still need the Bootstrap JavaScript  -->
+  </body>
+</html>
+```
