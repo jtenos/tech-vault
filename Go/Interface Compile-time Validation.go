@@ -1,4 +1,3 @@
-```go
 type Parser interface {
   Parse(content string) ([]string, error)
 }
@@ -11,4 +10,3 @@ var _ Parser = (*CSVParser)(nil)
 func (c *CSVParser) Parse(content string) ([]string, error) {
   return []string{}, nil
 }
-```

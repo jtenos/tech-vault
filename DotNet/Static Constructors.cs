@@ -1,4 +1,3 @@
-```csharp
 using System;
 using System.Collections.Generic;
 
@@ -119,4 +118,3 @@ static class Job
     static Job() => Console.WriteLine("Job static constructor");
     public static void StaticGo() => Console.WriteLine("Job StaticGo");
 }
-```
