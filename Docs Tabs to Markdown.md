@@ -1,6 +1,6 @@
 // Built by AI, no promises, but it seems to work ok
 
-```gscript
+```javascript
 /**
  * Google Docs → Markdown Exporter (Updated & Corrected)
  */
